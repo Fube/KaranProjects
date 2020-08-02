@@ -1,6 +1,8 @@
 package fube;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.ArrayList;
 
 public class Main {
 
@@ -41,12 +43,43 @@ public class Main {
                     bar = new BigDecimal("2.71828182845904523536028747135266249775724709369995957496696762772407663");
             return new BigDecimal(bar.multiply(foo).toBigInteger()).divide(foo);
         }
+
+        /**
+         * Fibonacci Sequence:
+         * Enter a number and have the program generate the Fibonacci sequence to that number or to the Nth number.
+         *
+         * @param lim Limit of the sequence
+         * @return ArrayList containing Fibonacci sequence up to lim
+         */
+        static ArrayList<BigInteger> fibonacciSeq(int lim, ArrayList<BigInteger>foo){
+
+            if(foo.size() == 0){
+                foo.add(BigInteger.ZERO);
+                foo.add(BigInteger.ONE);
+            }
+
+            final int SIZE = foo.size();
+
+            if(foo.size() == lim)
+                return foo;
+            foo.add(foo.get(SIZE - 1).add(foo.get(SIZE - 2)));
+
+            return fibonacciSeq(lim, foo);
+        }
     }
 
 
 
     public static void main(String[] args) {
-        System.out.println(Numbers.piToTheNthDigit(49));
-        System.out.println(Numbers.eToTheNthDigit(2));
+
+        System.out.println("piToTheNthDigit\t:\t"+Numbers.piToTheNthDigit(30));
+
+        System.out.println("eToTheNthDigit\t:\t"+Numbers.eToTheNthDigit(20));
+
+        System.out.println("fibonnaciSeq\t:\t"+Numbers.fibonacciSeq(2000, new ArrayList<BigInteger>(){{
+            add(new BigInteger("1"));
+            add(new BigInteger("1"));
+        }}));
+
     }
 }
