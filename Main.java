@@ -2,7 +2,7 @@ package fube;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.ArrayList;
+import java.util.*;
 
 public class Main {
 
@@ -60,26 +60,52 @@ public class Main {
 
             final int SIZE = foo.size();
 
-            if(foo.size() == lim)
+            if(foo.size() >= lim)
                 return foo;
             foo.add(foo.get(SIZE - 1).add(foo.get(SIZE - 2)));
 
             return fibonacciSeq(lim, foo);
         }
+
+        /**
+         * Prime Factorization:
+         * Have the user enter a number and find all Prime Factors (if there are any) and display them.
+         *
+         * @param num Integer to find prime factors of
+         * @return Returns Array of prime factors
+         */
+        static Set<Integer> primeFactorization(int num){
+
+            Set foo = new HashSet<Integer>();
+            for (int i = 2; i < num; i++){
+                while(num % i == 0){
+                    foo.add(i);
+                    num/=i;
+                }
+            }
+            foo.add(num);
+            return foo;
+        }
+    }
+
+    static void print(Object ...args){
+        System.out.printf("%s\t:\t%s\n", args[0], args[1]);
     }
 
 
 
     public static void main(String[] args) {
 
-        System.out.println("piToTheNthDigit\t:\t"+Numbers.piToTheNthDigit(30));
+        print("piToTheNthDigit", Numbers.piToTheNthDigit(30));
 
-        System.out.println("eToTheNthDigit\t:\t"+Numbers.eToTheNthDigit(20));
+        print("eToTheNthDigit", Numbers.eToTheNthDigit(20));
 
-        System.out.println("fibonnaciSeq\t:\t"+Numbers.fibonacciSeq(2000, new ArrayList<BigInteger>(){{
+        print("fibonacciSeq", Numbers.fibonacciSeq(3, new ArrayList<BigInteger>(){{
             add(new BigInteger("1"));
             add(new BigInteger("1"));
         }}));
+
+        print("primeFactorization", Numbers.primeFactorization(111111));
 
     }
 }
