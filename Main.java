@@ -8,6 +8,18 @@ public class Main {
 
     static class Numbers{
 
+        private Set findFactors(int num){
+
+            Set foo = new HashSet<Integer>();
+            for(int i = 1; i <= Math.sqrt(num); i++){
+                if(num % i == 0){
+                    foo.add(i);
+                    foo.add(num / i);
+                }
+            }
+            return foo;
+        }
+
         /**
          * Find PI to the Nth Digit:
          * Enter a number and have the program generate PI up to that many decimal places.
@@ -76,8 +88,8 @@ public class Main {
          */
         static Set<Integer> primeFactorization(int num){
 
-            Set foo = new HashSet<Integer>();
-            for (int i = 2; i < num; i++){
+            Set foo = new HashSet<Integer>(){{add(1);}};
+            for (int i = 2; i <= Math.sqrt(num); i++){
                 while(num % i == 0){
                     foo.add(i);
                     num/=i;
@@ -85,6 +97,25 @@ public class Main {
             }
             foo.add(num);
             return foo;
+        }
+
+        /**
+         * Next Prime Number:
+         * Have the program find prime numbers until the user chooses to stop asking for the next one.
+         */
+        static void nextPrimeNumber(){
+
+            Scanner sc = new Scanner(System.in);
+
+            for(int i = 1;;i+=2){
+
+                if(findFactors(i).size() <= 2) {
+                    System.out.println("Found prime number " + i);
+                    System.out.println("Continue?");
+                    if (!sc.nextLine().toLowerCase().equals("y"))
+                        return;
+                }
+            }
         }
     }
 
@@ -105,7 +136,9 @@ public class Main {
             add(new BigInteger("1"));
         }}));
 
-        print("primeFactorization", Numbers.primeFactorization(111111));
+        print("primeFactorization", Numbers.primeFactorization(Integer.MAX_VALUE - 1));
+
+        Numbers.nextPrimeNumber();
 
     }
 }
