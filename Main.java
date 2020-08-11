@@ -2,6 +2,8 @@ package fube;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.util.*;
 
 class Numbers{
@@ -172,7 +174,35 @@ class Numbers{
         return new ArrayList<Double>(){{add(payPer); add(amorti);}};
     }
 
+    /**
+     * Change Return Program:
+     * The user enters a cost and then the amount of money given.
+     * The program will figure out the change and the number of quarters, dimes, nickels, pennies needed for the change.
+     *
+     * @param amount the amount of money
+     * @return a HashMap mapped to <currency type, amount> (e.g. "Quarter" -> 3 means 75 cents)
+     */
+    static HashMap<String, Integer> changeRet(double cost, double amount){
 
+        final RoundingMode rm = RoundingMode.HALF_UP;
+        final BigDecimal
+                DIFF = new BigDecimal(amount - cost).setScale(2, rm),
+                QUARTER = new BigDecimal("0.25"),
+                DIME = new BigDecimal("0.1"),
+                NICKEL = new BigDecimal("0.05"),
+                PENNY = new BigDecimal("0.01");
+
+        if(amount <= cost)
+            throw new IllegalArgumentException("Amount must exceed cost");
+
+        //I used BigDecimal to avoid floating point inaccuracies
+        return new HashMap<String, Integer>(){{
+            put("Quarter", DIFF.divide(QUARTER).intValue());
+            put("Dime", DIFF.remainder(QUARTER).divide(DIME).intValue());
+            put("Nickel", DIFF.remainder(QUARTER).remainder(DIME).divide(NICKEL).intValue());
+            put("Penny", DIFF.remainder(NICKEL).divide(PENNY).setScale(0, rm).intValue());
+        }};
+    }
 }
 
 public class Main {
@@ -198,6 +228,7 @@ public class Main {
 
         //Numbers.nextPrimeNumber();
         print("mortgageCalc", Numbers.mortgageCalc(500, 0.5, 2.92, "monthly"));
+        print("changeRet", Numbers.changeRet(0.01, 0.5));
 
     }
 }
