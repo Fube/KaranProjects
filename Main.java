@@ -203,6 +203,24 @@ class Numbers{
             put("Penny", DIFF.remainder(NICKEL).divide(PENNY).setScale(0, rm).intValue());
         }};
     }
+
+    /**
+     * Binary to Decimal and Back Converter:
+     * Develop a converter to convert a decimal number to binary or a binary number to its decimal equivalent.
+     *
+     * @param in number to be converted
+     * @param base target base
+     * @return converted number
+     */
+    static String binaryDecimal(String in, int base){
+
+        if(base != 2 && base != 10)
+            throw new IllegalArgumentException("Base must be 2 or 10");
+
+        return base == 2 ? Integer.toBinaryString(Integer.parseInt(in)) : ""+Integer.parseInt(in, 2);
+    }
+
+
 }
 
 public class Main {
@@ -228,7 +246,10 @@ public class Main {
 
         //Numbers.nextPrimeNumber();
         print("mortgageCalc", Numbers.mortgageCalc(500, 0.5, 2.92, "monthly"));
+
         print("changeRet", Numbers.changeRet(0.01, 0.5));
+
+        print("binaryDecimal", Numbers.binaryDecimal(Numbers.binaryDecimal("10", 10), 2));
 
     }
 }
